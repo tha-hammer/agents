@@ -52,6 +52,8 @@ If the work happens inside a git repo, extend the cycle with:
 * Suggest a commit message that summarizes the completed task.
 * **First law of vibe coding**: commit after every change is completed.
 
+Note: "Commit after completion" is an execution requirement, not a documentation requirement. Agents do not need to update `README.md`, `AGENTS.md`, or playbooks merely to record that a commit was performed, unless the workflow/policy itself changed.
+
 ### Definition of Done (DoD)
 * Plan updated to match reality (if it changed mid-task).
 * Playbook updated if the workflow was missing or wrong.
@@ -70,10 +72,11 @@ Current playbooks:
 * `playbooks/how_to_create_a_new_playbook.md` - How to create a new operational playbook (scope, template, and lifecycle requirements).
 * `playbooks/how_to_commit_and_push_changes.md` - How to summarize, approve, commit, and push changes safely.
 * `playbooks/debugging_changes_that_lead_to_errors.md` - Evidence-first debugging workflow for changes that cause errors.
+* `playbooks/how_to_assimilate_another_agentic_framework.md` - How to study similar frameworks, extract transferable lessons, and propose atomic grafts into this project.
 
 ## 5. Project Organization
 
-The readme must always immediately be updated to reflect any changes in project organization, including new directories or files.
+The README must be updated when project organization changes in a way that affects the documented structure or user-facing usage (for example, new top-level directories/files, renamed major folders, or changes to any structure explicitly listed in the README).
 
 ## 6. Logging & Debugging Standards
 *   **Requirement**: The project must include comprehensive logging and debugging capabilities.

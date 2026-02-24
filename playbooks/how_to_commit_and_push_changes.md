@@ -3,7 +3,7 @@
 *Status: Draft*
 
 ## Objective
-Provide a repeatable workflow to summarize staged changes, propose a commit message, and push to `origin` after user approval, without assuming untracked files should be added.
+Provide a repeatable workflow to summarize staged changes, propose a commit message, commit after explicit user approval, and push to `origin` only after explicit push approval, without assuming untracked files should be added.
 
 ## Prerequisites
 *   Git installed and available in your shell.
@@ -38,22 +38,28 @@ Provide a repeatable workflow to summarize staged changes, propose a commit mess
         *   A single-sentence commit message suggestion (imperative mood).
 
 6.  **Request Approval**
-    *   Ask the user to approve the summary and commit message.
+    *   Ask the user to approve:
+        *   the change summary,
+        *   the commit message,
+        *   whether to commit now,
+        *   whether to push after commit.
     *   Confirm how to handle any untracked files (ignore, add specific files, or stop).
-    *   Do **not** commit until explicit approval is given.
+    *   Do **not** commit or push until explicit approval is given for each action.
 
 7.  **Commit After Approval**
     *   Command: `git commit -m "<approved message>"`
     *   Expected: Commit created with the approved message.
     *   If commit fails: re-check staged files and resolve any errors.
 
-8.  **Push to Origin**
+8.  **Push to Origin (Only If Approved)**
     *   Command: `git push origin HEAD`
     *   Expected: Remote updated with the new commit.
     *   If push fails: capture the error output and report it.
 
 ## Reminder
 *   First law of vibe coding: commit after every completed change.
+*   This playbook governs git actions and intentionally does not require separate documentation updates merely to record that a commit/push happened.
+*   This playbook intentionally omits a separate "Lifecycle Compliance" section because lifecycle compliance is documented in the task/playbook being completed; this file defines the git execution workflow used within that lifecycle.
 
 ## Verification
 *   `git log -1 --oneline` shows the new commit.

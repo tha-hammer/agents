@@ -78,5 +78,7 @@ If this occurs inside a git repo:
 ## 5. Finalizing
 
 1.  Save the file to `playbooks/`.
-2.  If this is a major workflow, mention it in `AGENTS.md` under the "Agent Playbooks" section.
-3.  If in a git repo, check status/diff and suggest a commit message. Commit after completion.
+2.  Update `AGENTS.md` under the "Agent Playbooks" section with the new, removed, or renamed playbook entry and a brief description (required for every playbook change).
+3.  Update `README.md` if the new playbook changes any structure or workflow inventory that the README documents.
+4.  Verify the `AGENTS.md` playbook index matches the actual contents of `playbooks/`.
+5.  If in a git repo, check status/diff and suggest a commit message. Commit after completion.
