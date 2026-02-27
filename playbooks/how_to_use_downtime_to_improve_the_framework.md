@@ -105,6 +105,7 @@ Prompt -> Plan (based on a known playbook) -> Request approval -> Execute -> Pla
 
 If this occurs inside a git repo:
 * Review `git status` and relevant diffs.
+* Ensure today's journal repo work log is updated for the report artifact change.
 * Suggest a commit message that summarizes the completed task.
-* Commit after completion.
+* Commit after approved checkpoint completion.
 

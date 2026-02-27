@@ -60,6 +60,7 @@ Provide a safety-first workflow for adding or changing a tool wrapper (command w
         * References
         * Templates
         * `RULES.md` / `README.md` (if organization or workflow inventory changed)
+        * Today's journal repo work log entry for the wrapper change
     * If the change introduces a recurring pattern, consider extracting it into `./references/`.
 
 7.  **Verify End-to-End Behavior**
@@ -109,6 +110,7 @@ Prompt -> Plan (based on a known playbook) -> Request approval -> Execute -> Pla
 
 If this occurs inside a git repo:
 * Review `git status` and relevant diffs.
+* Ensure today's journal repo work log is updated for the change.
 * Suggest a commit message that summarizes the completed task.
-* Commit after completion.
+* Commit after approved checkpoint completion.
 

@@ -10,6 +10,8 @@ Its job is to help agents:
 - make plans before acting,
 - keep documentation aligned with changes,
 - execute work atomically,
+- run a daily kickoff that captures intent and state,
+- maintain immutable-task kanban workflows,
 - evolve the process based on real usage,
 - and produce consistent results across many environments.
 
@@ -28,6 +30,8 @@ Its job is to help agents:
 
 ## Project Structure
 
+- `journal/` - Daily journal entries keyed by date (`YYYY-MM-DD.md`)
+- `kanban/` - Kanban boards stored as Markdown lists (time horizons + thematic boards)
 - `playbooks/` - Step-by-step workflows for recurring tasks
 - `references/` - Reusable guidance patterns (tone, verification, automation boundaries)
 - `templates/` - Reusable output formats for plans, reports, and proposals
@@ -35,11 +39,17 @@ Its job is to help agents:
 - `downtime/reports/pending/` - Downtime task reports awaiting user review (suggested changes only)
 - `downtime/reports/reviewed/` - Reviewed downtime reports kept for history and follow-up tracking
 - `docs/assimilations/` - Assimilation trail for lessons adopted/rejected from other frameworks
-- `get-shit-done/` - Local comparison repo used for assimilation research in this workspace (not part of the framework core)
 
 ## Working Cycle
 
 Prompt -> Plan (based on a playbook in `./playbooks/`) -> Request approval -> Execute -> Update docs/policy -> Verify
+
+## Daily Workflow
+
+- On startup, run the daily kickoff workflow in discovery mode first, then ask approval before writing files.
+- Baseline board names: `today`, `this_week`, `eventually`, `ideas`, `reminders`.
+- Kanban moves must preserve task lines verbatim.
+- Journal checkpoint commits use a separate commit/push policy from general repository git operations.
 
 ## Build / Runtime Notes
 

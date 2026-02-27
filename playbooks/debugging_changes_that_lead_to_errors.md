@@ -132,6 +132,7 @@ Before implementing:
    * Cause
    * Fix
    * How to detect early
+4. Append today's journal repo work log entry summarizing the fix and reason before commit.
 
 ### 11) Git Hygiene (If in a git repo)
 
@@ -139,8 +140,8 @@ Follow the commit playbook:
 
 * Check status/diff
 * Suggest a commit message
-* Commit after completion
-* First law of vibe coding: commit after every completed change
+* Commit after approved checkpoint completion
+* First law of vibe coding: commit after every approved completed checkpoint
 
 ## Verification
 
@@ -155,6 +156,7 @@ Prompt -> Plan (based on a known playbook) -> Request approval -> Execute -> Pla
 If inside a git repo:
 
 * Review `git status` and diffs
+* Ensure today's journal repo work log is updated for the change
 * Suggest a commit message
-* Commit after completion
-* First law of vibe coding: commit after every completed change
+* Commit after approved checkpoint completion
+* First law of vibe coding: commit after every approved completed checkpoint

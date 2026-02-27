@@ -19,6 +19,7 @@ Provide a repeatable workflow to summarize staged changes, propose a commit mess
 
 2.  **Confirm Plan and Docs Are Updated**
     *   Ensure the task plan, playbooks (if relevant), and docs are updated before committing.
+    *   Ensure today's journal repo work log includes the repository changes in scope (skip only when staged scope is journal-only updates).
     *   If anything is missing, update it first, then return to Step 1.
 
 3.  **Handle Untracked Files (Never Assume They Should Be Added)**
@@ -57,7 +58,7 @@ Provide a repeatable workflow to summarize staged changes, propose a commit mess
     *   If push fails: capture the error output and report it.
 
 ## Reminder
-*   First law of vibe coding: commit after every completed change.
+*   First law of vibe coding: commit after every approved completed checkpoint.
 *   This playbook governs git actions and intentionally does not require separate documentation updates merely to record that a commit/push happened.
 *   This playbook intentionally omits a separate "Lifecycle Compliance" section because lifecycle compliance is documented in the task/playbook being completed; this file defines the git execution workflow used within that lifecycle.
 

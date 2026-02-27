@@ -16,7 +16,8 @@ When making *any* change, you must review and update the following files if they
 4.  **`./playbooks/*.md`**: Any standard operating procedures or workflows that may be altered by the change.
 5.  **`./references/*.md`**: Reusable guidance patterns shared across multiple playbooks or prompts.
 6.  **`./templates/*.md`**: Reusable output formats used to standardize agent results.
-7.  **`./downtime/*.md`**, **`./downtime/reports/*`**, and **`./docs/assimilations/*`**: Maintenance task definitions, downtime reports, and the assimilation trail (when affected).
+7.  **`./journal/*.md`** and **`./kanban/*.md`**: Daily operational artifacts and board state (when affected).
+8.  **`./downtime/*.md`**, **`./downtime/reports/*`**, and **`./docs/assimilations/*`**: Maintenance task definitions, downtime reports, and the assimilation trail (when affected).
 
 ## 2. Operational Constraints (The Edge Protocol)
 
@@ -62,16 +63,16 @@ If the work happens inside a git repo, extend the cycle with:
 * Check `git status` and staged/untracked changes.
 * Review the diff (staged or unstaged as appropriate).
 * Suggest a commit message that summarizes the completed task.
-* **First law of vibe coding**: commit after every change is completed.
+* **First law of vibe coding**: commit after every approved completed checkpoint.
 
-Note: "Commit after completion" is an execution requirement, not a documentation requirement. Agents do not need to update `./README.md`, `./RULES.md`, or framework artifacts merely to record that a commit was performed, unless the workflow/policy itself changed.
+Note: "Commit after approved checkpoint completion" is an execution requirement, not a documentation requirement. Agents do not need to update `./README.md`, `./RULES.md`, or framework artifacts merely to record that a commit was performed, unless the workflow/policy itself changed.
 
 ### Definition of Done (DoD)
 * Plan updated to match reality (if it changed mid-task).
 * Playbook updated if the workflow was missing or wrong.
 * Documentation updated to reflect all changes.
 * Verification performed and reported.
-* In git repos: status/diff reviewed and a commit message suggested; commit performed after completion.
+* In git repos: status/diff reviewed and a commit message suggested; commit performed after approved checkpoint completion.
 
 ### UI Intent
 Commit history is a first-class UI surface. The user should see a list of recent completed tasks, so commit messages must be clear and task-scoped.
@@ -81,6 +82,43 @@ Before summarizing completed work to the user, check `./downtime/reports/pending
 * If any pending report artifacts (excluding `README.md`) exist, explicitly tell the user that downtime reports are pending review and list their paths.
 * If none exist, no special note is required.
 
+### Journal + Kanban Operational Policies
+
+These policies govern daily journaling and kanban usage in this repository.
+
+#### Journal Logging Requirement
+* Any work that changes repository state must be logged in today's journal entry at `./journal/YYYY-MM-DD.md`.
+* Journal log entries should be append-only unless the user explicitly asks to edit prior text.
+
+#### Kanban Immutability Contract
+* Kanban task lines are immutable user-authored data.
+* Moving tasks must preserve exact line text byte-for-byte.
+* Do not rephrase, normalize, merge, reorder, or clean up task text unless the user explicitly requests it.
+
+#### Snapshot Commit Rule (Conversation Checkpoints)
+* Commits represent completed conversation checkpoints, not completion of the broader plan.
+* Before committing, present a clear snapshot summary.
+* Explicit approval is required before commit unless staged scope is journal-only.
+* Journal-only exception: if staged changes are only journal updates, commit/push may proceed without a commit approval prompt.
+
+#### Journal Checkpoint Push-on-Commit Rule
+* For approved journal checkpoint commits, push immediately after commit.
+* Journal checkpoint commit/push behavior is governed by `./playbooks/how_to_commit_and_push_journal_checkpoints.md`.
+* General git workflows remain governed by `./playbooks/how_to_commit_and_push_changes.md`.
+* If a journal-only checkpoint is auto-committed, still push immediately and report the commit summary.
+
+#### Startup Behavior
+* On agent start, run the daily kickoff workflow in `./playbooks/how_to_run_daily_kickoff_and_capture_snapshot.md` when present.
+* Startup kickoff begins with discovery only (read-only); do not write files before user approval.
+* Proposed startup baseline artifacts:
+  * `./journal/YYYY-MM-DD.md`
+  * `./kanban/today.md`
+  * `./kanban/this_week.md`
+  * `./kanban/eventually.md`
+  * `./kanban/ideas.md`
+  * `./kanban/reminders.md`
+* Present proposed creates/updates first, then request approval before any startup write.
+
 ## 4. Agent Playbooks (Required Index)
 
 RULES.md must always include a complete list of all playbooks with their paths and a brief description. When a playbook is added, removed, or renamed, update this list in the same change.
@@ -88,8 +126,11 @@ RULES.md must always include a complete list of all playbooks with their paths a
 Current playbooks:
 * `./playbooks/how_to_create_a_new_playbook.md` - How to create a new operational playbook (scope, template, and lifecycle requirements).
 * `./playbooks/how_to_commit_and_push_changes.md` - How to summarize, approve, commit, and push changes safely.
+* `./playbooks/how_to_commit_and_push_journal_checkpoints.md` - Journal-specific checkpoint commit/push workflow with approval-mode rules and push-on-commit.
 * `./playbooks/debugging_changes_that_lead_to_errors.md` - Evidence-first debugging workflow for changes that cause errors.
 * `./playbooks/how_to_assimilate_another_agentic_framework.md` - How to study similar frameworks, extract transferable lessons, and propose atomic grafts into this project.
+* `./playbooks/how_to_run_daily_kickoff_and_capture_snapshot.md` - Startup workflow for daily journal/kanban readiness, intent capture, and checkpoint summary.
+* `./playbooks/how_to_move_kanban_tasks_verbatim.md` - Verbatim-only kanban move workflow that preserves exact task text.
 * `./playbooks/how_to_review_changes_for_risk_and_regression.md` - Bug/risk-first review workflow for code and documentation changes.
 * `./playbooks/how_to_add_or_modify_a_tool_wrapper_safely.md` - Safety-first workflow for adding or changing tool wrappers and tool integrations.
 * `./playbooks/how_to_use_downtime_to_improve_the_framework.md` - Periodic framework maintenance workflow using a tracked downtime task catalog.
@@ -102,6 +143,8 @@ Current references:
 * `./references/how_to_shape_agent_tone_and_timbre.md` - Reusable guidance for writing prompts/instructions with consistent tone and behavioral shaping.
 * `./references/verification_patterns_for_docs_and_policy.md` - Verification patterns for confirming documentation and policy artifacts are usable, not just present.
 * `./references/interaction_checkpoints_and_automation_boundaries.md` - Rules for when to ask the user vs automate vs pause at approval/checkpoint boundaries.
+* `./references/kanban_verbatim_handling.md` - Canonical rules for immutable kanban task identity and verbatim move evidence.
+* `./references/conversation_checkpoint_commits.md` - Guidance for defining, summarizing, and approving conversation checkpoint commits.
 
 ### Templates Index
 
@@ -113,6 +156,8 @@ Current templates:
 * `./templates/playbook_proposal.md` - Template for proposing a new playbook before implementation.
 * `./templates/assimilation_trail_entry.md` - Template for recording adopted/rejected lessons from an external framework review.
 * `./templates/downtime_report.md` - Template for downtime task reports (analysis-only suggested changes, no direct edits).
+* `./templates/daily_journal_entry.md` - Canonical daily journal structure for kickoff context, intentions, kanban summary, and repo work log.
+* `./templates/kanban_board.md` - Canonical kanban board structure for horizon- and thematic-based boards.
 
 ### Downtime Task Index
 

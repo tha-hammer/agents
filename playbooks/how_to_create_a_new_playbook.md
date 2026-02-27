@@ -64,7 +64,7 @@ Prompt -> Plan (based on a known playbook) -> Request approval -> Execute -> Pla
 If this occurs inside a git repo:
 * Review `git status` and relevant diffs.
 * Suggest a commit message that summarizes the completed task.
-* Commit after completion.
+* Commit after approved checkpoint completion.
 ```
 
 ## 4. Writing Guidelines
@@ -73,7 +73,7 @@ If this occurs inside a git repo:
 *   **Anticipate Failure**: If a step is prone to error (like network timeouts), provide a specific remediation sub-step.
 *   **Code-First**: Where possible, reference specific scripts in the repo rather than writing long manual terminal commands.
 *   **Idempotency**: Playbooks should ideally be repeatable without breaking the system.
-*   **Lifecycle Alignment**: Include the lifecycle compliance block so agents always follow plan/approval/update/verify and commit after completion.
+*   **Lifecycle Alignment**: Include the lifecycle compliance block so agents always follow plan/approval/update/verify and commit after approved checkpoint completion.
 
 ## 5. Finalizing
 
@@ -81,5 +81,6 @@ If this occurs inside a git repo:
 2.  Update `RULES.md` under the "Agent Playbooks" section with the new, removed, or renamed playbook entry and a brief description (required for every playbook change).
 3.  Update `README.md` if the new playbook changes any structure or workflow inventory that the README documents.
 4.  Verify the `RULES.md` playbook index matches the actual contents of `./playbooks/`.
-5.  If in a git repo, check status/diff and suggest a commit message. Commit after completion.
+5.  Append today's journal repo work log entry summarizing the playbook change and rationale.
+6.  If in a git repo, check status/diff and suggest a commit message. Commit after approved checkpoint completion.
 

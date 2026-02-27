@@ -1,0 +1,93 @@
+# Playbook: Daily Kickoff and Snapshot Capture
+
+*Status: Stable*
+
+## Objective
+Run a startup workflow that discovers daily artifact state, gets approval before any writes, captures daily intent, applies verbatim kanban changes, and prepares a checkpoint summary.
+
+## Prerequisites
+
+- Read `README.md` and `RULES.md` before making changes.
+- Journal template available at `./templates/daily_journal_entry.md`.
+- Kanban template available at `./templates/kanban_board.md`.
+
+## Step-by-Step Instructions
+
+1. **Resolve Local Date**
+   - Determine current local date as `YYYY-MM-DD`.
+
+2. **Discover Today's Journal State (Read-Only)**
+   - Target path: `./journal/YYYY-MM-DD.md`.
+   - Record whether it exists.
+
+3. **Discover Baseline Board State (Read-Only)**
+   - Required board files:
+     - `./kanban/today.md`
+     - `./kanban/this_week.md`
+     - `./kanban/eventually.md`
+     - `./kanban/ideas.md`
+     - `./kanban/reminders.md`
+   - Record which files exist and which are missing.
+
+4. **Present Startup Status and Ask Write Approval**
+   - Report:
+     - what exists already,
+     - what is missing,
+     - what files would be created/updated.
+   - Ask for explicit approval before creating or editing files.
+
+5. **Create Missing Artifacts (After Approval)**
+   - If `./journal/YYYY-MM-DD.md` is missing, create from `./templates/daily_journal_entry.md` and replace all `YYYY-MM-DD` tokens with the resolved date.
+   - For each missing baseline board, create from `./templates/kanban_board.md` and replace placeholders:
+     - `<Board Name>`
+     - `<time_horizon_or_theme>`
+     - `<why this board exists>`
+
+6. **Startup Interaction**
+   - Greet the user with:
+     - what exists today,
+     - what was created,
+     - what information is still needed.
+   - Ask the smallest set of questions required to fill today's intentions and immediate task flow.
+
+7. **Apply Kanban Changes**
+   - If task moves are requested, follow `./playbooks/how_to_move_kanban_tasks_verbatim.md`.
+
+8. **Update Journal Entry**
+   - Append today's intentions from conversation.
+   - Append kanban state summary and any moves performed.
+   - Append required repo work log entries for repository changes made during the checkpoint.
+
+9. **Present Snapshot Summary**
+   - List files changed.
+   - List what was added/updated.
+   - List kanban moves with exact task lines.
+
+10. **Ask Save Approval**
+   - Ask user to approve saving the snapshot edits.
+   - If approved, save files.
+
+11. **Commit + Push Journal Checkpoint**
+   - For journal checkpoint commits, follow `./playbooks/how_to_commit_and_push_journal_checkpoints.md`.
+
+## Verification
+
+- `./journal/YYYY-MM-DD.md` exists and has kickoff/intent/log sections filled.
+- Required baseline boards exist in `./kanban/`:
+  - `today.md`
+  - `this_week.md`
+  - `eventually.md`
+  - `ideas.md`
+  - `reminders.md`
+- Any moved kanban lines are unchanged verbatim in destination.
+- Snapshot summary matches actual diffs.
+
+## Lifecycle Compliance
+
+Prompt -> Plan (based on a known playbook) -> Request approval -> Execute -> Plan/playbook update -> Docs update -> Verification.
+
+If this occurs inside a git repo:
+- Review `git status` and relevant diffs.
+- Suggest a commit message that summarizes the completed task.
+- Update today's journal repo work log before commit.
+- Commit after approved checkpoint completion.

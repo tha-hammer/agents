@@ -181,6 +181,7 @@ Use this playbook when:
     * Update existing playbooks if the assimilation changed how common workflows should be executed.
     * Add a new playbook if the review exposed a recurring workflow that lacks one.
     * Document not only what changed, but why the change improves the framework.
+    * Append today's journal repo work log entry for implemented repository changes.
 
 15.  **Preserve an Assimilation Trail**
     * Record a short summary of:
@@ -248,6 +249,7 @@ Prompt -> Plan (based on a known playbook) -> Request approval -> Execute -> Pla
 
 If this occurs inside a git repo:
 * Review `git status` and relevant diffs.
+* Ensure today's journal repo work log is updated for implemented changes.
 * Suggest a commit message that summarizes the completed task.
-* Commit after completion.
+* Commit after approved checkpoint completion.
 

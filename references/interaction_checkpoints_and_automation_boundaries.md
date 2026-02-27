@@ -23,7 +23,7 @@ Use when a change is about to be applied.
 Examples:
 - Editing files after analysis/planning
 - Running a risky command
-- Committing or pushing (unless already approved for that action)
+- Committing or pushing (unless already approved for that action, or a journal-only auto-commit policy exception applies)
 
 Required behavior:
 - Present the plan or the atomic action
