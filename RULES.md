@@ -174,6 +174,7 @@ Current playbooks:
 * `./playbooks/how_to_review_changes_for_risk_and_regression.md` - Bug/risk-first review workflow for code and documentation changes.
 * `./playbooks/how_to_add_or_modify_a_tool_wrapper_safely.md` - Safety-first workflow for adding or changing tool wrappers and tool integrations.
 * `./playbooks/how_to_use_downtime_to_improve_the_framework.md` - Periodic framework maintenance workflow using a tracked downtime task catalog.
+* `./playbooks/how_to_sync_progress_to_google_sheets.md` - Push kanban state, daily intentions, and progress to a shared Google Sheet via Apps Script webhook.
 
 ### Contexts Index
 

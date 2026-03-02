@@ -57,6 +57,8 @@ Prompt -> Plan (based on a playbook in `./playbooks/`) -> Request approval -> Ex
 ## Scripts
 
 - `scripts/validate-indexes.sh` — Validates that RULES.md indexes (playbooks, contexts, references, templates, downtime tasks) match the actual filesystem. Run with `./scripts/validate-indexes.sh`. Exit code 0 = valid, 1 = mismatches found.
+- `scripts/sync_to_sheets.py` — Syncs kanban boards and journal entries to a Google Sheet via Apps Script webhook. Run with `python3 scripts/sync_to_sheets.py`. Requires `SHEETS_WEBHOOK_URL` in `.env`.
+- `scripts/google_apps_script.js` — Apps Script code to paste into the Google Sheet (Extensions > Apps Script). Provides the webhook endpoint for `sync_to_sheets.py`.
 
 ## Build / Runtime Notes
 
