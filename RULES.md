@@ -6,9 +6,9 @@ This document outlines the high-level architecture, development standards, and s
 
 ## 1. Documentation Integrity
 
-**CRITICAL**: Any changes to code, features, or architecture must be simultaneously reflected in the project documentation. An agent's task is not complete until the documentation is consistent with the code.
+**CRITICAL**: Any changes to code, features, or architecture MUST be simultaneously reflected in the project documentation. An agent's task is NOT complete until the documentation is consistent with the code.
 
-When making *any* change, you must review and update the following files if they are affected by or relevant to the change:
+When making *any* change, ALWAYS review and update the following files if they are affected by or relevant to the change:
 
 1.  **`./README.md`** (Root): High-level design/project specs, roadmap, and submodule integration guidance.
 2.  **`./RULES.md`**: Canonical organizational structure, policy, indexes, and operational protocols.
@@ -18,10 +18,11 @@ When making *any* change, you must review and update the following files if they
 6.  **`./templates/*.md`**: Reusable output formats used to standardize agent results.
 7.  **`./journal/*.md`** and **`./kanban/*.md`**: Daily operational artifacts and board state (when affected).
 8.  **`./downtime/*.md`**, **`./downtime/reports/*`**, and **`./docs/assimilations/*`**: Maintenance task definitions, downtime reports, and the assimilation trail (when affected).
+9.  **`./contexts/*.md`**: Behavioral mode profiles (when task-type behavioral guidance changes).
 
 ## 2. Operational Constraints (The Edge Protocol)
 
-**Assume you are running on a resource-constrained device.**
+**CRITICAL**: ALWAYS assume you are running on a resource-constrained device.
 
 Design decisions may have been made by larger models or humans with more context. Default to established patterns and incremental changes.
 
@@ -31,35 +32,49 @@ Design decisions may have been made by larger models or humans with more context
 *   **Role**: Your role is that of a precise, obedient operator, not a lead architect, unless explicitly asked.
 
 ### The Protocol
-1.  **Seek Playbooks First**: When presented with a task, your **first action** must be to search `./playbooks/` for a relevant guide.
-2.  **Plan & Propose**: After reviewing the appropriate playbook and BEFORE writing any code, you must:
+1.  **Seek Playbooks First** (REQUIRED): When presented with a task, your **first action** MUST be to search `./playbooks/` for a relevant guide.
+2.  **Plan & Propose** (REQUIRED): After reviewing the appropriate playbook and BEFORE writing any code, you MUST:
     *   Formulate a **Comprehensive & Atomic Plan** detailing every file (code and documentation) that needs modification.
     *   Identify any missing information and ask **Clarifying Questions**.
     *   Present this plan to the user and **Explicitly Request Approval** to proceed.
-3.  **Execute After Approval**: Once the user approves the plan, carry it out strictly according to the playbook. Do not deviate.
-4.  **Wait for Long Operations (Synchronous Execution)**: When running build scripts, compilations, or deployments, execute synchronously and wait for completion before responding.
-5.  **Stop on Ambiguity**: If you cannot find a playbook describing exactly what you are trying to do:
+3.  **Execute After Approval**: Once the user approves the plan, carry it out strictly according to the playbook. NEVER deviate from the approved plan without re-approval.
+4.  **Wait for Long Operations (Synchronous Execution)**: When running build scripts, compilations, or deployments, ALWAYS execute synchronously and wait for completion before responding.
+5.  **Stop on Ambiguity** (CRITICAL): If you cannot find a playbook describing exactly what you are trying to do:
     *   **STOP**.
-    *   Do not guess.
-    *   Do not try to "figure it out."
+    *   NEVER guess. NEVER try to "figure it out."
     *   **Report**: Inform the user: *"I do not have a playbook for [Task Name]. Please create a playbook for this task so I can execute it reliably."*
+
+### Proactive Triggers
+When you encounter these situations, ALWAYS take the specified action:
+*   When you see a failing test → ALWAYS read the full error output before attempting a fix.
+*   When you are about to modify a file → ALWAYS read the file first to understand current state.
+*   When a plan step produces unexpected results → ALWAYS stop and report before continuing.
+*   When you discover a file not listed in RULES.md indexes → ALWAYS flag it to the user.
+*   When your context window is growing large → ALWAYS consider whether to summarize or compact before proceeding.
+
+### Anti-Patterns (NEVER Do This)
+*   NEVER improvise a complex solution when no playbook exists — stop and report instead.
+*   NEVER skip the plan-and-propose step, even for changes that seem trivial.
+*   NEVER modify files outside the scope of the approved plan without re-approval.
+*   NEVER assume a previous agent's work is correct — verify before building on it.
+*   NEVER silently broaden scope during execution; pause and update the plan first.
 
 ### Downtime Task Rule (Report-Only)
 
 Downtime tasks are analysis-only. When executing any task in `./downtime/`:
-* Do **not** change framework files directly.
+* NEVER change framework files directly.
 * Produce one report artifact in `./downtime/reports/pending/` that contains a comprehensive set of suggested changes.
 * Name the report using the downtime task filename with `.report` inserted before `.md` (for example, `./downtime/x.md` -> `./downtime/reports/pending/x.report.md`).
 * Wait for user review/approval before implementing any suggested changes from the report.
 
-## 3. Self-Evolving Workflow (Required)
+## 3. Self-Evolving Workflow (REQUIRED)
 
-This repository treats documentation and plans as executable policy. The system prompt lives in these files.
+**CRITICAL**: This repository treats documentation and plans as executable policy. The system prompt lives in these files.
 
 ### Required Cycle
 Prompt -> Plan (based on a known playbook) -> Request approval -> Execute -> Plan/playbook update -> Docs update -> Verification
 
-If the work happens inside a git repo, extend the cycle with:
+If the work happens inside a git repo, ALWAYS extend the cycle with:
 * Check `git status` and staged/untracked changes.
 * Review the diff (staged or unstaged as appropriate).
 * Suggest a commit message that summarizes the completed task.
@@ -73,6 +88,16 @@ Note: "Commit after approved checkpoint completion" is an execution requirement,
 * Documentation updated to reflect all changes.
 * Verification performed and reported.
 * In git repos: status/diff reviewed and a commit message suggested; commit performed after approved checkpoint completion.
+
+### Context Modes
+
+When starting a task, select the behavioral mode that best matches the work type. Context mode files live in `./contexts/` and define distinct behavioral profiles:
+
+* `./contexts/dev.md` — Action-first mode for building, fixing, and implementing. Bias toward code output over explanation.
+* `./contexts/research.md` — Evidence-first mode for investigation, analysis, and learning. Bias toward breadth and accuracy over speed.
+* `./contexts/review.md` — Severity-first mode for reviewing code, docs, and changes. Bias toward finding issues over summarizing.
+
+When you recognize the task type, ALWAYS adopt the corresponding behavioral mode before proceeding. If the task spans multiple modes (e.g., research then implement), shift modes at the boundary.
 
 ### UI Intent
 Commit history is a first-class UI surface. The user should see a list of recent completed tasks, so commit messages must be clear and task-scoped.
@@ -131,9 +156,9 @@ These policies govern daily journaling and kanban usage in this repository.
   * `./kanban/reminders.md`
 * Present proposed creates/updates first, then request approval before any startup write.
 
-## 4. Agent Playbooks (Required Index)
+## 4. Agent Playbooks (REQUIRED Index)
 
-RULES.md must always include a complete list of all playbooks with their paths and a brief description. When a playbook is added, removed, or renamed, update this list in the same change.
+RULES.md MUST always include a complete list of all playbooks with their paths and a brief description. When a playbook is added, removed, or renamed, ALWAYS update this list in the same change.
 
 Current playbooks:
 * `./playbooks/how_to_create_a_new_playbook.md` - How to create a new operational playbook (scope, template, and lifecycle requirements).
@@ -141,11 +166,23 @@ Current playbooks:
 * `./playbooks/how_to_commit_and_push_journal_checkpoints.md` - Journal-specific checkpoint commit/push workflow with approval-mode rules and push-on-commit.
 * `./playbooks/debugging_changes_that_lead_to_errors.md` - Evidence-first debugging workflow for changes that cause errors.
 * `./playbooks/how_to_assimilate_another_agentic_framework.md` - How to study similar frameworks, extract transferable lessons, and propose atomic grafts into this project.
+* `./playbooks/how_to_create_a_tdd_implementation_plan.md` - Behavior-first workflow for creating detailed TDD plans with Red/Green/Refactor slices and verification criteria.
+* `./playbooks/how_to_extract_a_tlaplus_model_from_existing_code.md` - Workflow for extracting a behavioral model from code, writing a verifiable path spec, and handing it off to planning/TDD.
+* `./playbooks/how_to_research_a_codebase.md` - Documentation-first workflow for researching codebases and producing evidence-backed research artifacts.
 * `./playbooks/how_to_run_daily_kickoff_and_capture_snapshot.md` - Startup workflow for daily journal/kanban readiness, intent capture, and checkpoint summary.
 * `./playbooks/how_to_move_kanban_tasks_verbatim.md` - Verbatim-only kanban move workflow that preserves exact task text.
 * `./playbooks/how_to_review_changes_for_risk_and_regression.md` - Bug/risk-first review workflow for code and documentation changes.
 * `./playbooks/how_to_add_or_modify_a_tool_wrapper_safely.md` - Safety-first workflow for adding or changing tool wrappers and tool integrations.
 * `./playbooks/how_to_use_downtime_to_improve_the_framework.md` - Periodic framework maintenance workflow using a tracked downtime task catalog.
+
+### Contexts Index
+
+Maintain this list when `./contexts/` files are added, removed, or renamed.
+
+Current contexts:
+* `./contexts/dev.md` - Action-first behavioral profile for building, fixing, and implementing.
+* `./contexts/research.md` - Evidence-first behavioral profile for investigation, analysis, and learning.
+* `./contexts/review.md` - Severity-first behavioral profile for reviewing code, docs, and changes.
 
 ### References Index
 
@@ -157,6 +194,8 @@ Current references:
 * `./references/interaction_checkpoints_and_automation_boundaries.md` - Rules for when to ask the user vs automate vs pause at approval/checkpoint boundaries.
 * `./references/kanban_verbatim_handling.md` - Canonical rules for immutable kanban task identity and verbatim move evidence.
 * `./references/conversation_checkpoint_commits.md` - Guidance for defining, summarizing, and approving conversation checkpoint commits.
+* `./references/context_window_management.md` - Guidelines for managing context consumption, MCP/tool limits, and compaction timing.
+* `./references/agent_roles_and_model_tiering.md` - Advisory guidance for dispatching sub-agents with appropriate roles, model tiers, and tool scopes.
 
 ### Templates Index
 
@@ -192,9 +231,9 @@ Downtime task outputs are stored in:
 
 ## 5. Project Organization
 
-The README must be updated when project organization changes in a way that affects the documented structure, submodule integration usage, or user-facing workflow guidance (for example, new top-level directories/files, renamed major folders, or changes to any structure explicitly listed in the README).
+The README MUST be updated when project organization changes in a way that affects the documented structure, submodule integration usage, or user-facing workflow guidance (for example, new top-level directories/files, renamed major folders, or changes to any structure explicitly listed in the README).
 
 ## 6. Logging & Debugging Standards
-*   **Requirement**: The project must include comprehensive logging and debugging capabilities.
-*   **Implementation**: Any new feature or module must include appropriate logging statements to facilitate troubleshooting and performance monitoring.
-
+*   **REQUIRED**: The project must include comprehensive logging and debugging capabilities.
+*   **Implementation**: Any new feature or module MUST include appropriate logging statements to facilitate troubleshooting and performance monitoring.
+*   When you encounter an error during execution → ALWAYS capture the full error output as evidence before attempting a fix. NEVER discard error context.

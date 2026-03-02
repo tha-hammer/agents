@@ -30,10 +30,12 @@ Its job is to help agents:
 
 ## Project Structure
 
+- `contexts/` - Behavioral mode profiles (dev, research, review) that sharpen agent behavior per task type
 - `journal/` - Daily journal entries keyed by date (`YYYY-MM-DD.md`)
 - `kanban/` - Kanban boards stored as Markdown lists (time horizons + thematic boards)
 - `playbooks/` - Step-by-step workflows for recurring tasks
 - `references/` - Reusable guidance patterns (tone, verification, automation boundaries)
+- `scripts/` - Validation and maintenance scripts for framework artifact integrity
 - `templates/` - Reusable output formats for plans, reports, and proposals
 - `downtime/` - Periodic maintenance task definitions for improving the framework during idle time
 - `downtime/reports/pending/` - Downtime task reports awaiting user review (suggested changes only)
@@ -52,9 +54,13 @@ Prompt -> Plan (based on a playbook in `./playbooks/`) -> Request approval -> Ex
 - Kanban moves must preserve task lines verbatim.
 - Journal checkpoint commits use a separate commit/push policy from general repository git operations.
 
+## Scripts
+
+- `scripts/validate-indexes.sh` — Validates that RULES.md indexes (playbooks, contexts, references, templates, downtime tasks) match the actual filesystem. Run with `./scripts/validate-indexes.sh`. Exit code 0 = valid, 1 = mismatches found.
+
 ## Build / Runtime Notes
 
-This repo is documentation-first and currently has no build step. If executable tools/scripts are added later, document usage and verification here.
+This repo is documentation-first. The `scripts/` directory contains validation tooling but no build step is required.
 
 ## Known Opportunities
 
