@@ -7,7 +7,7 @@
 
 ## To Do
 
-<!-- Add task lines as markdown bullets: - exact task text -->
+- [Silmari] Async voice chat for video script iteration — voice-driven script creation and iteration connected to video creator for full output pipeline
 
 ## Doing
 
