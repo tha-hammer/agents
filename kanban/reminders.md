@@ -7,7 +7,7 @@
 
 ## To Do
 
-<!-- Add task lines as markdown bullets: - exact task text -->
+- [Silmari] Resume personal tooling session — --resume 7c5efd28-85f3-4631-ab76-cbef4fb310b6 for later implementation work
 
 ## Doing
 
