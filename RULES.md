@@ -175,6 +175,7 @@ Current playbooks:
 * `./playbooks/how_to_add_or_modify_a_tool_wrapper_safely.md` - Safety-first workflow for adding or changing tool wrappers and tool integrations.
 * `./playbooks/how_to_use_downtime_to_improve_the_framework.md` - Periodic framework maintenance workflow using a tracked downtime task catalog.
 * `./playbooks/how_to_sync_progress_to_google_sheets.md` - Push kanban state, daily intentions, and progress to a shared Google Sheet via Apps Script webhook.
+* `./playbooks/how_to_plan_a_kpi_aligned_feature.md` - Connect feature plans to product KPIs (Signal Density, Story Completion, Truth Confirmation, Conversion) before implementation. Prevent isolated specs.
 
 ### Contexts Index
 

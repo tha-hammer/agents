@@ -60,6 +60,17 @@ Prompt -> Plan (based on a playbook in `./playbooks/`) -> Request approval -> Ex
 - `scripts/sync_to_sheets.py` — Syncs kanban boards and journal entries to a Google Sheet via Apps Script webhook. Run with `python3 scripts/sync_to_sheets.py`. Requires `SHEETS_WEBHOOK_URL` in `.env`.
 - `scripts/google_apps_script.js` — Apps Script code to paste into the Google Sheet (Extensions > Apps Script). Provides the webhook endpoint for `sync_to_sheets.py`.
 
+## KPI-Driven Development
+
+All features must be planned against four KPI dimensions before implementation:
+
+- **Signal Density** — Does the feature help extract concrete, specific evidence (not vague narratives)?
+- **Story Completion** — Does it move the user toward a complete, structured narrative?
+- **Truth Confirmation** — Does it verify claims or mark unverified assertions?
+- **Conversion** — Does it improve recruiter signal, leading to higher interview rates?
+
+Use the `how_to_plan_a_kpi_aligned_feature.md` playbook to map any feature to these dimensions before planning or coding.
+
 ## Build / Runtime Notes
 
 This repo is documentation-first. The `scripts/` directory contains validation tooling but no build step is required.
