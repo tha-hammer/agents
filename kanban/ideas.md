@@ -14,7 +14,7 @@
 
 ## Doing
 
-<!-- Add task lines as markdown bullets: - exact task text -->
+- [CosmicHR KPI COMPASS] **User Signal Quality**: Signal Density Score (concrete metrics per answer), Story Completion Rate (sessions with full structured data), Truth Confirmation Rate (verified claims vs unconfirmed), Time-to-Draft (user friction), Application-to-Interview Conversion (lagging indicator of success). Before any task, ask: does this improve one of these?
 
 ## Done
 
