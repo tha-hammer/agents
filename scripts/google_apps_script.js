@@ -41,7 +41,7 @@ function doPost(e) {
   }
 }
 
-// -- Kanban tab: snapshot replace (clear + rewrite) -----------
+// -- Kanban tab: three-column board (Backlog | Doing | Done) -----------
 function writeKanban(ss, rows) {
   var sheet = ss.getSheetByName("Kanban");
   if (!sheet) {
@@ -49,19 +49,43 @@ function writeKanban(ss, rows) {
   }
   sheet.clearContents();
 
-  var headers = ["Board", "Task", "Status", "Updated"];
-  var data = [headers];
+  // Organize tasks by status
+  var backlog = [];
+  var doing = [];
+  var done = [];
+
   rows.forEach(function(r) {
-    data.push([r.board, r.task, r.status, r.updated]);
+    var taskLine = "[" + r.board + "] " + r.task;
+    if (r.status === "To Do") {
+      backlog.push(taskLine);
+    } else if (r.status === "Doing") {
+      doing.push(taskLine);
+    } else if (r.status === "Done") {
+      done.push(taskLine);
+    }
   });
-  if (data.length > 1) {
-    sheet.getRange(1, 1, data.length, headers.length).setValues(data);
-  } else {
-    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+
+  // Headers
+  var headers = ["Backlog", "Doing", "Done"];
+  sheet.getRange(1, 1, 1, 3).setValues([headers]);
+  sheet.getRange(1, 1, 1, 3).setFontWeight("bold");
+  sheet.getRange(1, 1, 1, 3).setBackground("#d9d9d9");
+
+  // Find max column height
+  var maxRows = Math.max(backlog.length, doing.length, done.length);
+
+  // Write tasks in rows, padding with empty strings
+  for (var i = 0; i < maxRows; i++) {
+    var row = [
+      backlog[i] || "",
+      doing[i] || "",
+      done[i] || ""
+    ];
+    sheet.getRange(i + 2, 1, 1, 3).setValues([row]);
   }
 
-  // Bold header row
-  sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold");
+  // Auto-fit column widths
+  sheet.autoResizeColumns(1, 3);
 }
 
 // -- Daily Log tab: append (never clear) ----------------------
