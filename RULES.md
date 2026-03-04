@@ -176,6 +176,7 @@ Current playbooks:
 * `./playbooks/how_to_use_downtime_to_improve_the_framework.md` - Periodic framework maintenance workflow using a tracked downtime task catalog.
 * `./playbooks/how_to_sync_progress_to_google_sheets.md` - Push kanban state, daily intentions, and progress to a shared Google Sheet via Apps Script webhook.
 * `./playbooks/how_to_plan_a_kpi_aligned_feature.md` - Connect feature plans to product KPIs (Signal Density, Story Completion, Truth Confirmation, Conversion) before implementation. Prevent isolated specs.
+* `./playbooks/how_to_prioritize_work_by_kpi_impact.md` - Score work items (blockers, bugs, refactors, features) against four KPIs. Output go/nogo/todo lists and execution phases. Unblock critical path first.
 
 ### Contexts Index
 
@@ -211,6 +212,7 @@ Current templates:
 * `./templates/downtime_report.md` - Template for downtime task reports (analysis-only suggested changes, no direct edits).
 * `./templates/daily_journal_entry.md` - Canonical daily journal structure for kickoff context, intentions, kanban summary, and repo work log.
 * `./templates/kanban_board.md` - Canonical kanban board structure for horizon- and thematic-based boards.
+* `./templates/kpi_priority_matrix.md` - Score work items against KPIs (0-3 each), sum to 0-12, categorize as GO/TODO/NOGO, add dependencies, output execution phases.
 
 ### Downtime Task Index
 
