@@ -168,6 +168,61 @@ def collect_this_week():
     ]
 
 
+# -- Daily Metrics collection -------------------------------------------------
+
+def collect_daily_metrics():
+    """Calculate task completion ratio and scope creep indicator from today.md."""
+    today_file = KANBAN_DIR / "today.md"
+    if not today_file.exists():
+        return None
+
+    text = today_file.read_text()
+
+    # Count tasks by status
+    to_do_count = 0
+    doing_count = 0
+    done_count = 0
+    current_section = None
+
+    for line in text.splitlines():
+        stripped = line.strip()
+
+        # Detect section headers
+        if stripped.startswith("## To Do"):
+            current_section = "To Do"
+        elif stripped.startswith("## Doing"):
+            current_section = "Doing"
+        elif stripped.startswith("## Done"):
+            current_section = "Done"
+        elif stripped.startswith("## "):
+            current_section = None
+        elif current_section and stripped.startswith("- ") and not stripped.startswith("<!--"):
+            task_text = stripped[2:].strip()
+            if task_text and not task_text.startswith("DEADLINE") and not task_text.startswith("Agent"):
+                if current_section == "To Do":
+                    to_do_count += 1
+                elif current_section == "Doing":
+                    doing_count += 1
+                elif current_section == "Done":
+                    done_count += 1
+
+    total_tasks = to_do_count + doing_count + done_count
+    if total_tasks == 0:
+        return None
+
+    completion_ratio = (done_count / total_tasks) * 100
+
+    return {
+        "date": date.today().isoformat(),
+        "to_do": to_do_count,
+        "doing": doing_count,
+        "done": done_count,
+        "total": total_tasks,
+        "completion_ratio": round(completion_ratio, 1),
+        "completion_pct": f"{round(completion_ratio, 1)}%"
+    }
+
+
 # -- Sync --------------------------------------------------------------------
 
 def sync(kanban=True, journal=True, this_week=True, dry_run=False):
@@ -176,6 +231,10 @@ def sync(kanban=True, journal=True, this_week=True, dry_run=False):
 
     if kanban:
         payload["kanban"] = collect_kanban()
+        # Always include daily metrics with kanban
+        metrics = collect_daily_metrics()
+        if metrics:
+            payload["daily_metrics"] = metrics
 
     if journal:
         entry = get_today_journal()

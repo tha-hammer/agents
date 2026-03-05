@@ -28,6 +28,9 @@ function doPost(e) {
     if (payload.this_week) {
       writeThisWeek(ss, payload.this_week);
     }
+    if (payload.daily_metrics) {
+      writeDailyMetrics(ss, payload.daily_metrics);
+    }
 
     return ContentService
       .createTextOutput(JSON.stringify({ status: "ok" }))
@@ -150,6 +153,44 @@ function writeThisWeek(ss, rows) {
   }
 
   sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold");
+}
+
+// -- Daily Metrics tab: snapshot replace --------------------------
+function writeDailyMetrics(ss, metrics) {
+  var sheet = ss.getSheetByName("Daily Metrics");
+  if (!sheet) {
+    sheet = ss.insertSheet("Daily Metrics");
+  }
+  sheet.clearContents();
+
+  var headers = ["Date", "To Do", "Doing", "Done", "Total Tasks", "Completion %"];
+  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold");
+  sheet.getRange(1, 1, 1, headers.length).setBackground("#d9d9d9");
+
+  var row = [
+    metrics.date,
+    metrics.to_do,
+    metrics.doing,
+    metrics.done,
+    metrics.total,
+    metrics.completion_pct
+  ];
+
+  sheet.getRange(2, 1, 1, headers.length).setValues([row]);
+
+  // Color code completion ratio
+  var completionCell = sheet.getRange(2, 6);
+  if (metrics.completion_ratio >= 75) {
+    completionCell.setBackground("#c6efce"); // Green: 75%+ done
+  } else if (metrics.completion_ratio >= 50) {
+    completionCell.setBackground("#fff2cc"); // Yellow: 50-75% done
+  } else {
+    completionCell.setBackground("#ffcccc"); // Red: <50% done
+  }
+
+  // Auto-fit columns
+  sheet.autoResizeColumns(1, headers.length);
 }
 
 // -- Test function (run manually to verify) -------------------
